@@ -1,0 +1,5 @@
+PRODUCT_MAKEFILES := \
+    $(LOCAL_DIR)/twrp_OP4A54.mk
+
+COMMON_LUNCH_CHOICES := \
+    twrp_OP4A54-eng
