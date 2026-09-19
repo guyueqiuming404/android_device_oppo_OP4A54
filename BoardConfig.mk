@@ -14,17 +14,39 @@ TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a53
 TARGET_BOARD_PLATFORM := trinket
 TARGET_BOOTLOADER_BOARD_NAME := trinket
 
-# Kernel
-BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 swiotlb=1 earlycon=msm_geni_serial,0x4a90000 loop.max_part=7 cgroup.memory=nokmem,nosocket buildvariant=user
+# ===== Kernel / Boot image =====
+# 关键：告诉编译系统内核是 gzip 压缩的 Image.gz
+BOARD_KERNEL_IMAGE_NAME := Image.gz
+TARGET_KERNEL_ARCH := arm64
+TARGET_KERNEL_HEADER_ARCH := arm64
+
+# 头部版本，必须和原厂一致
+BOARD_BOOT_HEADER_VERSION := 1
+
+# 页大小，必须和原厂一致（原厂是 4096）
+BOARD_KERNEL_PAGESIZE := 4096
+
+# 内核基地址（从原厂 header 读，如果没有就用 0x00000000）
 BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_OFFSET := 0x00008000
 BOARD_RAMDISK_OFFSET := 0x01000000
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
-BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
+
+# 内核命令行，必须和原厂一致，去掉重复的 buildvariant=eng
+BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 swiotlb=1 earlycon=msm_geni_serial,0x4a90000 loop.max_part=7 cgroup.memory=nokmem,nosocket buildvariant=user
+
+# 预编译内核
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
 
-# Partitions
+# 内核 dtb
+TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb
+BOARD_INCLUDE_DTB_IN_BOOTIMG := true
+
+# recovery dtbo
+TARGET_PREBUILT_RECOVERY_DTBO := $(DEVICE_PATH)/prebuilt/recovery_dtbo
+BOARD_INCLUDE_RECOVERY_DTBO := true
+
+# ===== Partitions =====
 BOARD_BOOTIMAGE_PARTITION_SIZE := 100663296
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 5473566720
@@ -41,13 +63,13 @@ BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
 # A-only
 AB_OTA_UPDATER := false
 
-# Recovery
+# ===== Recovery =====
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery.fstab
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 
-# TWRP
+# ===== TWRP =====
 TW_THEME := portrait_hdpi
 TW_EXTRA_LANGUAGES := true
 TW_SCREEN_BLANK_ON_BOOT := true
