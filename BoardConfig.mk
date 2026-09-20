@@ -23,6 +23,8 @@ TARGET_KERNEL_HEADER_ARCH := arm64
 # 头部版本，必须和原厂一致
 BOARD_BOOT_HEADER_VERSION := 1
 
+BOARD_MKBOOTIMG_ARGS += --header_version 1+
+
 # 页大小，必须和原厂一致（原厂是 4096）
 BOARD_KERNEL_PAGESIZE := 4096
 
@@ -36,7 +38,7 @@ BOARD_KERNEL_TAGS_OFFSET := 0x00000100
 BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 swiotlb=1 earlycon=msm_geni_serial,0x4a90000 loop.max_part=7 cgroup.memory=nokmem,nosocket buildvariant=user
 
 # 预编译内核
-TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
+TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/Image.gz
 
 # 内核 dtb
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
