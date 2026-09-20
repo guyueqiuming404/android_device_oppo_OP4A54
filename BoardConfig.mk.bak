@@ -21,7 +21,7 @@ TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
 
 # 头部版本，必须和原厂一致
-
+BOARD_BOOT_HEADER_VERSION := 1
 
 BOARD_MKBOOTIMG_ARGS += --header_version 1+
 
