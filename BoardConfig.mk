@@ -23,7 +23,7 @@ TARGET_KERNEL_HEADER_ARCH := arm64
 # 头部版本，必须和原厂一致
 
 
-BOARD_MKBOOTIMG_ARGS += --header_version 1+
+BOARD_MKBOOTIMG_ARGS := --header_version 1
 
 # 页大小，必须和原厂一致（原厂是 4096）
 BOARD_KERNEL_PAGESIZE := 4096
